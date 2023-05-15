@@ -1,4 +1,4 @@
-import express from 'servidor';
+import express from 'express';
 import ProductManager from './ProductManager';
 
 
@@ -9,12 +9,12 @@ const ProductManager = new ProductManager('./productos.json');
 app.use(express.urlencoded({extended: true}))
 
 app.get('/products' , async (req, res)=> {
-    const products = await ProductManager.getAll();
+    const products = await ProductManager.getProducts();
     res.send(products);
 });
 
 app.get('/' , async (req, res)=>{
-    const products = await ProductManager.getAll();
+    const products = await ProductManager.getProducts();
     res.send({products});
 });
 
