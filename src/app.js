@@ -9,8 +9,8 @@ const ProductManager = new Product('./productos.json');
 app.use(express.urlencoded({extended: true}))
 
 app.get('/products/:id' , async (req, res)=> {
-    const products = await ProductManager.getProducts(id);
-    res.send(getProducByid(products.json));
+    const products = products.find(products=> producto.id == req.params.id)
+    res.send(req.params.id);
 });
 
 
