@@ -58,7 +58,7 @@ export  default class ProductManager {
         // parsear los datos como un array de objetos
         const products = JSON.parse(data);
         // buscar el producto por su código
-        const product = products.find((p) => p.code === code);
+        const product = products.find((p) => p.id === code);
         if (product) {
             return product;
         } else {
