@@ -2,6 +2,7 @@ import { Router } from 'express';
 import fs from 'fs';
 import Joi from 'joi';
 
+
 const router = Router();
 const pathProducts = 'src/files/products.json';
 
@@ -26,11 +27,11 @@ router.get('/', async (req, res) => {
 });
 
 
-// "(...) La ruta GET /:pid deberá traer sólo el producto con el id proporcionado  (...)" (consignas.txt:7)
 router.get('/:pid', async (req, res) => {
 	try {
 		const data = await fs.promises.readFile(pathProducts, 'utf-8');
-		const products = JSON.parse(data);
+		const products = await productManager.getProducts('realTimeProducts');
+		res.render( res.send(products))
 	
 		const { pid } = req.params;
 		const productById = products.find((product) => product.id == pid);

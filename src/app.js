@@ -4,6 +4,7 @@ import cartsRouter from './routes/carts.routes.js';
 import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
 import viewsRouter from './routes/views.router.js';
+import __dirname from './utils.js';
 
 
 
@@ -18,6 +19,14 @@ app.set('views', `${__dirname}/views`);
 app.set('view engine', 'handlebars');
 
 app.use('/', viewsRouter);
+
+
+app.get('/:id', async (req,res => {
+    let realTimeProducts = await.product.getProductByid(req.params.id)
+    res.render("realTimeProducts", {
+        products : realTimeProducts
+    })
+}))
 
 const server = app.listen(8081, ()=> console.log("Server running"));
 
