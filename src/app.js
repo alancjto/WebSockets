@@ -21,6 +21,7 @@ app.set('view engine', 'handlebars');
 app.use('/', viewsRouter);
 
 
+
 app.get('/:id', async (req,res => {
     let realTimeProducts = await.product.getProductByid(req.params.id)
     res.render("realTimeProducts", {
