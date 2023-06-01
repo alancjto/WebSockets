@@ -1,10 +1,14 @@
-<div>
+<form id="form" method="post">
+     <input type="text" id="textbox">
     <h1>Lista de productos</h1>
-    <h2>{{this.nombre}}</h2>
-    <p>{{this.apellido}}</p>
-    <p>{{this.edad}}</p>
-    <input id="textbox">
+    <li>{{this.nombre}}</li>
+    <li>{{this.apellido}}</li>
+    <li>{{this.edad}}</li>
+    <li>{{this.precio}}</li>
+    <li>{{this.id}}</li>
+    
     <p id="log"></p>
-</div>
+  <imput type="submit" value="enviar" >Enviar</imput>
+</form>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/home.js"></script>

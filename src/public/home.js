@@ -1,7 +1,7 @@
 const socket = io();
 
 const input = document.getElementById('textbox');
-const log = document.getElementById('log');
+const form = document.getElementById('form');
 
 input.addEventListener('keyup', evt=>{
     const {key} = evt;

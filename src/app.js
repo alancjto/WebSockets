@@ -22,6 +22,7 @@ app.use('/', viewsRouter);
 
 
 
+
 app.get('/:id', async (req,res => {
     let realTimeProducts = await.product.getProductByid(req.params.id)
     res.render("realTimeProducts", {
@@ -41,16 +42,24 @@ app.use(express.urlencoded({extended:true}));
 
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
+app.use('/layouts/realTimeProducts.handlebars' , FormData);
 
 
 
 app.listen(8080, () => {
-    console.log("Server is listening on port 8080");
-})
+    console.log("Server is listening on port 8080")
+});
+
 
 io.on('connection', socket=>{
     console.log('Conectado');
+    socket.emit("RealTimeProducts", productManager.getAllProducts(form))
     socket.on('message1', data=>{
-        io.emit('log', data)
+        io.emit('form', data)
     })
-})
+ })
+
+ app.post('/RealTimeProducts.handlebars/form' , async (req, res) => { 
+    let form = req.body
+    res.send(await product.getAllProducts(form))
+ })
