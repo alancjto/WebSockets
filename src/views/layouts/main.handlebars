@@ -1,14 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{{title}}</title>
-</head>
-    <body>
-
-        {{{body}}}
-
-    </body>
-</html>
+<div>
+  {{#if pTiempoReal}}
+    <h1>Productos en Base JSON </h1>
+    <ul id="product-list">
+      {{#each pTiempoReal}}
+        <ul>
+          <p>
+            Id: {{this.id}}<br>
+            Title: {{this.title}}<br>
+            Description: {{this.description}}<br>
+            Code: {{this.code}}<br>
+            Price: {{this.price}}<br>
+            Status: {{this.status}}<br>
+            Category: {{this.category}}<br>
+            Thumbnail: {{this.thumbnail}}<br>
+            Stock: {{this.stock}}
+          </p>
+        </ul>
+      {{/each}}
+    </ul>
+  {{else}}
+    <h2>No se encontraron resultados de la búsqueda</h2>
+  {{/if}}
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/home.js"></script>

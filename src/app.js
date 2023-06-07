@@ -1,65 +1,37 @@
 import express from 'express';
-import productsRouter from './routes/products.routes.js';
-import cartsRouter from './routes/carts.routes.js';
-import { Server } from 'socket.io';
 import handlebars from 'express-handlebars';
-import viewsRouter from './routes/views.router.js';
 import __dirname from './utils.js';
+import fs from 'fs'
+import {Server} from 'socket.io';
+import ProductManager from './ProductManager.js';
+import viewsRouter from './routes/views.router.js'
 
-
+// Crear nueva instancia de la clase
+const productManager = new ProductManager('./database/products.json');
+const products = productManager.getProducts();
 
 const app = express();
 
-
-
-app.use(express.static(`${__dirname}/public`));
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 app.engine('handlebars', handlebars.engine());
-app.set('views', `${__dirname}/views`);
+app.set('views', __dirname + '/views');
 app.set('view engine', 'handlebars');
+app.use(express.static(__dirname+'/public'))
 
-app.use('/', viewsRouter);
+app.use('/', viewsRouter)
 
+const httpServer = app.listen(8080, ()=> console.log('Escuchando server'));
+const io = new Server(httpServer);
 
-
-
-app.get('/:id', async (req,res => {
-    let realTimeProducts = await.product.getProductByid(req.params.id)
-    res.render("realTimeProducts", {
-        products : realTimeProducts
+io.on('connection', socket => {
+    console.log("Cliente conectado");
+    socket.on('message', data => {
+        const id = products.length + 1;
+        const product = { id, ...data}
+        products.unshift(product);
+        fs.writeFileSync('./database/products.json',JSON.stringify(products, null, '\t'))
+        io.emit('product', data)
     })
-}))
-
-const server = app.listen(8081, ()=> console.log("Server running"));
-
-const io = new Server (server);
-
-
-
-app.use(express.json());
-app.use(express.urlencoded({extended:true}));
-
-
-app.use('/api/products', productsRouter);
-app.use('/api/carts', cartsRouter);
-app.use('/layouts/realTimeProducts.handlebars' , FormData);
-
-
-
-app.listen(8080, () => {
-    console.log("Server is listening on port 8080")
-});
-
-
-io.on('connection', socket=>{
-    console.log('Conectado');
-    socket.emit("RealTimeProducts", productManager.getAllProducts(form))
-    socket.on('message1', data=>{
-        io.emit('form', data)
-    })
- })
-
- app.post('/RealTimeProducts.handlebars/form' , async (req, res) => { 
-    let form = req.body
-    res.send(await product.getAllProducts(form))
- })
+})
