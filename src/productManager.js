@@ -1,5 +1,6 @@
 import fs, { readFileSync } from 'fs'
 
+
 export default class ProductManager {
     products = [];
     product = Product;
@@ -10,8 +11,8 @@ export default class ProductManager {
     getProducts(){
         try {
             const files = readFileSync(this.path, "utf-8");
-            const filesParsed = JSON.parse(files)
-            return filesParsed;
+            const databaseParsed = JSON.parse(files)
+            return databaseParsed;
         } catch(error) {
             console.log(error);
             return [];
